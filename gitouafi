@@ -1,0 +1,39 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'   
+PURPLE='\033[0;35m'
+YELLOW='\033[0;33m'
+NC='\033[0m'         
+
+git add .
+
+echo -e "${YELLOW}Enter the commit message:${NC}"
+read commitMessage
+
+git commit -m "$commitMessage"
+
+echo -e "${GREEN}Would you like to chmod a file? (y/n)${NC}"
+read choice
+
+if [ "$choice" == "y" ]; then
+  echo -e "${GREEN}Enter the filename to chmod:${NC}"
+  ls
+  read filename
+
+  # Check if the file exists before attempting to chmod
+  if [ -e "$filename" ]; then
+    chmod +x "$filename"
+    echo -e "${GREEN}File '$filename' has been chmodded.${NC}"
+  else
+    echo -e "${RED}File '$filename' does not exist.${NC}"
+  fi
+fi
+
+echo -e "${PURPLE}Enter the branch name (or leave empty for default 'git push')${NC}"
+read branch
+
+if [ -z "$branch" ]; then
+	  git push
+  else
+	    git push origin "$branch"
+fi
